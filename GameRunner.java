@@ -52,12 +52,27 @@ class riverGame
 	}
 	public void PrintSolution()
 	{
-		Stack<riverGame> solutionPath= this.getBestPath();
+		//first print the crossing time for each person:
+		System.out.println("here are the crossing times for each person: ");
+		for(Person a:leftSide)
+		{
+			System.out.print(a.getName()+ "("+a.getCrossingTime()+")   ");
+		}
+		System.out.println();
 		
-		Iterator<riverGame> it = solutionPath.iterator();
+		Stack<riverGame> solutionPath= this.getBestPath();
+		//we want to print the stack in reverse order
+		Stack <riverGame> toPrint = new Stack<riverGame>();
+		
+		while(!solutionPath.isEmpty())
+		{
+			toPrint.push(solutionPath.pop());
+		}
+		
+		Iterator<riverGame> it = toPrint.iterator();
 		while(it.hasNext())
 		{
-			System.out.println(it.next());
+			System.out.println(it.next().toString());
 		}
 	}
 	private Stack<riverGame> getBestPath()
@@ -168,7 +183,7 @@ class riverGame
 		if(torchIsLeft) output+="-t- ";
 		for( Person p : leftSide)
 		{
-			output+=p.getName();
+			output+=p.getName() ;
 		}
 		output+="====";
 		
@@ -178,7 +193,6 @@ class riverGame
 		}
 		if(!torchIsLeft) output+=" -t-";
 		
-		output+= "   cost of last step: "+ this.costOfLastStep;
 		output+= "   Total Time required: "+ this.timeRequired;
 		return output;
 	}
